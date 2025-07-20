@@ -52,3 +52,55 @@ parent_id: [YOUR_PAGE_OR_DATABASE_ID]
 title: 예시 제목
 content: 예시 내용
 ```
+
+## 배포 방법
+
+### 자동 배포 (GitHub Actions)
+
+이 프로젝트는 GitHub Actions를 통해 자동으로 PyPI에 배포됩니다.
+
+#### 1. PyPI API 토큰 설정
+1. [PyPI](https://pypi.org)에 로그인
+2. Account Settings → API tokens → Add API token
+3. Token name: `github-actions`
+4. Scope: `Entire account (all projects)`
+5. 생성된 토큰을 복사
+
+#### 2. GitHub Secrets 설정
+1. GitHub 저장소 → Settings → Secrets and variables → Actions
+2. "New repository secret" 클릭
+3. Name: `PYPI_API_TOKEN`
+4. Value: 위에서 생성한 PyPI API 토큰
+
+#### 3. 배포 트리거
+- **태그 기반 배포**: `v1.0.0`, `v1.1.0` 등의 태그를 푸시하면 자동 배포
+- **메인 브랜치 배포**: `main` 브랜치에 푸시할 때마다 자동 배포
+
+```bash
+# 태그로 배포
+git tag v0.2.1
+git push origin v0.2.1
+
+# 또는 main 브랜치에 푸시
+git push origin main
+```
+
+### 수동 배포
+
+```bash
+# 빌드
+python -m build
+
+# PyPI에 업로드
+python -m twine upload dist/*
+```
+
+## 개발 환경 설정
+
+```bash
+# 의존성 설치
+pip install -r requirements.txt
+
+# 개발 의존성 설치 (uv 사용)
+uv sync --dev
+```
